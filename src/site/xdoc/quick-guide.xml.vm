@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+    <head>
+        <title>Performance Statistics Configuration Processor Quick Guide</title>
+    </head>
+
+    <body>
+
+        <section name="Overview">
+            <p>This document guides you to install and setup Statistics Configuration Processor.</p>
+            <p>Configuration Processor for statistics creates and delivers the configuration for Statistics Server and
+                statistics clients.
+            </p>
+        </section>
+
+        <section name="Debian">
+
+            <p>This section shows you how to install the software on a Debian based platform. </p>
+
+            <subsection name="Prerequisites">
+
+                <p>Statistics server is released to the Baxter Stable APT Repository. You have to configure that
+                    repository on your host.
+                </p>
+
+                <p>
+                    Open file
+                    <code>/etc/apt/sources.list</code>
+                    , and add following line to the list:
+                </p>
+                <source>deb http://cdbaxter.baxtersol.bit/stable stable non-free</source>
+
+                <p>For development environments you have to use Snapshots repository: </p>
+                <source>deb http://cdbaxter.baxtersol.bit/snapshots snapshots non-free </source>
+
+                <p>The deb packages provided on repositories are signed with a key. You have to import that key to your
+                    key manager. Following command will download and register a key:
+                </p>
+                <source> wget http://cdbaxter.baxtersol.bit/baxter-pub.key apt-key add baxter-pub.key </source>
+            </subsection>
+
+            <subsection name="Installation">
+
+                <p>
+                    Run following commands in terminal. Most likely you have to be root (use
+                    <code>sudo su -</code>
+                    )
+                </p>
+                <source>apt-get install statistics-config-processor</source>
+
+                <p>This will install also all required dependency packages (including configuration server).</p>
+
+                <p>The same command may be used also for updating the statistics configuration processor.
+                </p>
+
+                <p>
+                    <b>Note:</b>
+                    it is recommended to stop Configuration Server before installing/updating the processors if the
+                    server is running.
+                </p>
+
+                <p>If you keep (I really hope so) your production configuration under some source control system, you
+                    have to update/pull your config sources for statistics processor according to the version of
+                    processor you are using.
+                </p>
+
+            </subsection>
+
+            <subsection name="Validating the install">
+
+                <p>
+                    Typically it is enough to query the package manager for installed software:
+                    <source>apt-cache show statistics-config-processor</source>
+                </p>
+
+                <p>After the processor is installed and the configuration server is started, the processor will create
+                    default configuration repository if the last one did not exist prior to startup. If there is some
+                    configuration repository with a previous version found on storage and the new processor is of newer
+                    version then the repository upgrade will be launched upon server startup.
+                </p>
+
+            </subsection>
+
+            <subsection name="Diagnostics">
+
+                <p>Whenever you have some troubles using the Statistics Configuration Processor please do not panic. Try the following
+                    actions:
+                </p>
+
+                <ol>
+                    <li>
+                        Check if the configuration server is running
+                        <source>service configuration-server status </source>
+                    </li>
+                    <li>
+                        Optionally ensure that java process still alive
+                        <source>ps aux | grep configuration-server </source>
+                    </li>
+                    <li>
+                        Check if you have proper version installed
+                        <source>dpkg --list | grep -e configuration-server -e statistics-config-processor</source>
+                    </li>
+                    <li>Just have a look at nohup file and log files (if you are lucky you will immediately see the
+                        problem)
+                    </li>
+                    <li>
+                        Check if the application is listening on UDP
+                        <source> netstat -pan | grep udp | grep "$(cat /var/run/configuration-server.pid)" </source>
+                    </li>
+                </ol>
+
+            </subsection>
+
+        </section>
+
+        <section name="RedHat Based OS">
+
+            <p>This section shows you how to install the software on a RedHat based platform.
+            </p>
+
+            <subsection name="Installation">
+
+                <p>The Statistics Configuration Processor software currently released as an RPM package. It will get to yum repositories
+                    soon.
+                </p>
+
+                <p>You may get the RPM from a clouds storage or from a mirrored Baxter Nexus.
+                </p>
+
+                <source>wget
+                    https://repository-baxter.forge.cloudbees.com/release/com/baxter/stat/statistics-config-processor/${releaseVersion}/statistics-config-processor-${releaseVersion}-std.rpm
+                </source>
+
+                <source>wget
+                    http://qa.baxtersol.bit/nexus/content/repositories/baxter.release.cloudbees/com/baxter/stat/statistics-config-processor/${releaseVersion}/statistics-config-processor-${releaseVersion}-std.rpm
+                </source>
+
+                <p>After download you can install a package by issuing a command:
+                </p>
+
+                <source>yum install statistics-config-processor-${releaseVersion}-std.rpm
+                </source>
+
+                <p>Here is a trick. Until the package gets properly to a YUM repository you have to manually install the
+                    dependencies for config processor. In order to check the dependencies run following:
+                </p>
+                <source>sudo yum deplist statistics-config-processor-${releaseVersion}-std.rpm</source>
+
+            </subsection>
+
+            <subsection name="Installation for Santander">
+
+                <p>
+                    Santander has specific requirements to the packages. Statistics server provides a special builds for
+                    Santander:
+                </p>
+
+                <source>wget
+                    https://repository-baxter.forge.cloudbees.com/release/com/baxter/stat/statistics-config-processor/${releaseVersion}/statistics-config-processor-${releaseVersion}-san.rpm
+                </source>
+
+                <source>wget
+                    http://qa.baxtersol.bit/nexus/content/repositories/baxter.release.cloudbees/com/baxter/stat/statistics-config-processor/${releaseVersion}/statistics-config-processor-${releaseVersion}-san.rpm
+                </source>
+
+                <p>After download you can install a package by issuing a command:
+                </p>
+
+                <source>yum install statistics-config-processor-${releaseVersion}-san.rpm </source>
+
+            </subsection>
+
+        </section>
+
+        <section name="Configuration Repository">
+
+            <p>
+                Detailed description for Statistics Configuration Processor repository could be found on
+                <a href="./structure.html">Overview page</a>
+                .
+            </p>
+
+        </section>
+
+    </body>
+
+</document>

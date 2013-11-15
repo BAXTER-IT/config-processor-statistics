@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://baxter-it.com/config/log"
+	xmlns:c="http://baxter-it.com/config/component">
+
+	<logger id="ROOT" name="ROOT" level="WARN">
+		<c:component id="statistics-server" />
+		<appender-ref ref="FILE" />
+	</logger>
+
+	<logger id="com.baxter" name="com.baxter" level="DEBUG">
+		<c:component id="statistics-server" />
+	</logger>
+
+	<rolling-file-appender id="FILE" name="FILE"
+		file="/var/log/baxter/statistics-server.log" maxSize="100MB" backupIndex="5">
+		<layout>[%d{ISO8601}] [%p] %c - %m%n</layout>
+	</rolling-file-appender>
+
+</configuration>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://baxter-it.com/config/statistics">
+
+	<udp host="statserverip" port="4321" />
+
+	<disruptor wait-strategy="com.lmax.disruptor.BlockingWaitStrategy"
+		ring-buffer-size="1024">
+		<persistence-handler max-uncommitted-entities="300">
+			<connection url="jdbc:oracle:thin:@192.168.9.221:1521:BAXTERDB"
+				username="xpdev25" password="xpdev25" />
+		</persistence-handler>
+	</disruptor>
+
+	<jmx-sql-exposer id="Stat_01">
+		select
+		min(last.TIMESTAMP - first.TIMESTAMP),
+		avg(last.TIMESTAMP - first.TIMESTAMP),
+		max(last.TIMESTAMP - first.TIMESTAMP),
+		count(first.MESSAGEID)
+		from LMPS first, LMPS last where
+		last.TIMESTAMP >= ?
+		and first.MESSAGEID = last.MESSAGEID
+		and first.SERVICEPROVIDERID = last.SERVICEPROVIDERID
+		and first.LMP = 'E1'
+		and last.LMP = 'E4'
+		and first.CONTEXT = 21
+		and last.CONTEXT = 23
+		and first.MESSAGEEXTID1 = last.MESSAGEEXTID1
+	</jmx-sql-exposer>
+
+	<jmx-sql-exposer id="Stat_02">
+		select
+		min(last.TIMESTAMP - first.TIMESTAMP),
+		avg(last.TIMESTAMP - first.TIMESTAMP),
+		max(last.TIMESTAMP - first.TIMESTAMP),
+		count(first.MESSAGEID)
+		from LMPS first, LMPS last where
+		last.TIMESTAMP >= ?
+		and first.MESSAGEID = last.MESSAGEID
+		and first.SERVICEPROVIDERID = last.SERVICEPROVIDERID
+		and first.LMP = 'E1'
+		and last.LMP = 'E4'
+		and first.CONTEXT = 8
+		and last.CONTEXT = 10
+		and first.MESSAGEEXTID1 = last.MESSAGEEXTID1
+	</jmx-sql-exposer>
+
+	<jmx-sql-exposer id="Stat_03">
+		select
+		min(last.TIMESTAMP - first.TIMESTAMP),
+		avg(last.TIMESTAMP - first.TIMESTAMP),
+		max(last.TIMESTAMP - first.TIMESTAMP),
+		count(first.MESSAGEID)
+		from LMPS first, LMPS last where
+		last.TIMESTAMP >= ?
+		and first.MESSAGEID = last.MESSAGEID
+		and first.SERVICEPROVIDERID = last.SERVICEPROVIDERID
+		and first.LMP = 'E1'
+		and last.LMP = 'E8'
+		and first.CONTEXT = 21
+		and last.CONTEXT = 30
+		and first.MESSAGEEXTID1 = last.MESSAGEEXTID1
+	</jmx-sql-exposer>
+
+	<jmx-sql-exposer id="Stat_04">
+		select
+		min(last.TIMESTAMP - first.TIMESTAMP),
+		avg(last.TIMESTAMP - first.TIMESTAMP),
+		max(last.TIMESTAMP - first.TIMESTAMP),
+		count(first.MESSAGEID)
+		from LMPS first, LMPS last where
+		last.TIMESTAMP >= ?
+		and first.MESSAGEID = last.MESSAGEID
+		and first.SERVICEPROVIDERID = last.SERVICEPROVIDERID
+		and first.LMP = 'E5'
+		and last.LMP = 'E8'
+		and first.CONTEXT = 24
+		and last.CONTEXT = 25
+		and first.MESSAGEEXTID1 = last.MESSAGEEXTID1
+		and first.MESSAGEEXTID2 = last.MESSAGEEXTID2
+		and first.ITERATIONID = last.ITERATIONID
+	</jmx-sql-exposer>
+
+	<jmx-sql-exposer id="Stat_05">
+		select
+		min(last.TIMESTAMP - first.TIMESTAMP),
+		avg(last.TIMESTAMP - first.TIMESTAMP),
+		max(last.TIMESTAMP - first.TIMESTAMP),
+		count(first.MESSAGEID)
+		from LMPS first, LMPS last where
+		last.TIMESTAMP >= ?
+		and first.MESSAGEID = last.MESSAGEID
+		and first.SERVICEPROVIDERID = last.SERVICEPROVIDERID
+		and first.LMP = 'E1'
+		and last.LMP = 'E12'
+		and (
+		( first.CONTEXT = 21 and last.CONTEXT = 27 )
+		or
+		( first.CONTEXT = 8 and last.CONTEXT = 11 )
+		)
+		and first.MESSAGEEXTID1 = last.MESSAGEEXTID1
+	</jmx-sql-exposer>
+
+	<jmx-sql-exposer id="Stat_06">
+		select
+		min(last.TIMESTAMP - first.TIMESTAMP),
+		avg(last.TIMESTAMP - first.TIMESTAMP),
+		max(last.TIMESTAMP - first.TIMESTAMP),
+		count(first.MESSAGEID)
+		from LMPS first, LMPS last where
+		last.TIMESTAMP >= ?
+		and first.MESSAGEID = last.MESSAGEID
+		and first.SERVICEPROVIDERID = last.SERVICEPROVIDERID
+		and first.LMP = 'E5'
+		and last.LMP = 'E12'
+		and first.CONTEXT = 24
+		and last.CONTEXT = 26
+		and first.MESSAGEEXTID1 = last.MESSAGEEXTID1
+		and first.MESSAGEEXTID2 = last.MESSAGEEXTID2
+		and first.ITERATIONID = last.ITERATIONID
+	</jmx-sql-exposer>
+
+	<jmx-sql-exposer id="Stat_07">
+		select
+		min(last.TIMESTAMP - first.TIMESTAMP),
+		avg(last.TIMESTAMP - first.TIMESTAMP),
+		max(last.TIMESTAMP - first.TIMESTAMP),
+		count(first.MESSAGEID)
+		from LMPS first, LMPS last where
+		last.TIMESTAMP >= ?
+		and first.MESSAGEID = last.MESSAGEID
+		and first.SERVICEPROVIDERID = last.SERVICEPROVIDERID
+		and first.LMP = 'E10'
+		and last.LMP = 'E12'
+		and first.CONTEXT = 26
+		and last.CONTEXT = 26
+		and first.MESSAGEEXTID1 = last.MESSAGEEXTID1
+		and first.MESSAGEEXTID2 = last.MESSAGEEXTID2
+		and first.ITERATIONID = last.ITERATIONID
+	</jmx-sql-exposer>
+
+	<jmx-sql-exposer id="Stat_08">
+		select
+		min(last.TIMESTAMP - first.TIMESTAMP),
+		avg(last.TIMESTAMP - first.TIMESTAMP),
+		max(last.TIMESTAMP - first.TIMESTAMP),
+		count(first.MESSAGEID)
+		from LMPS first, LMPS last where
+		last.TIMESTAMP >= ?
+		and first.MESSAGEID = last.MESSAGEID
+		and first.SERVICEPROVIDERID = last.SERVICEPROVIDERID
+		and first.LMP = 'E1'
+		and last.LMP = 'E4'
+		and first.CONTEXT = 13
+		and last.CONTEXT = 17
+	</jmx-sql-exposer>
+
+	<jmx-sql-exposer id="Stat_09">
+		select
+		min(last.TIMESTAMP - first.TIMESTAMP),
+		avg(last.TIMESTAMP - first.TIMESTAMP),
+		max(last.TIMESTAMP - first.TIMESTAMP),
+		count(first.MESSAGEID)
+		from LMPS first, LMPS last where
+		last.TIMESTAMP >= ?
+		and first.MESSAGEID = last.MESSAGEID
+		and first.SERVICEPROVIDERID = last.SERVICEPROVIDERID
+		and first.LMP = 'E3'
+		and last.LMP = 'E6'
+		and first.CONTEXT = 13
+		and last.CONTEXT = 16
+	</jmx-sql-exposer>
+
+	<jmx-sql-exposer id="Stat_10">
+		select
+		min(last.TIMESTAMP - first.TIMESTAMP),
+		avg(last.TIMESTAMP - first.TIMESTAMP),
+		max(last.TIMESTAMP - first.TIMESTAMP),
+		count(first.MESSAGEID)
+		from LMPS first, LMPS last where
+		last.TIMESTAMP >= ?
+		and first.MESSAGEID = last.MESSAGEID
+		and first.SERVICEPROVIDERID = last.SERVICEPROVIDERID
+		and first.LMP = 'E1'
+		and last.LMP = 'E8'
+		and first.CONTEXT = 13
+		and last.CONTEXT = 18
+	</jmx-sql-exposer>
+
+	<jmx-sql-exposer id="Stat_11">
+		select
+		min(last.TIMESTAMP - first.TIMESTAMP),
+		avg(last.TIMESTAMP - first.TIMESTAMP),
+		max(last.TIMESTAMP - first.TIMESTAMP),
+		count(first.MESSAGEID)
+		from LMPS first, LMPS last where
+		last.TIMESTAMP >= ?
+		and first.MESSAGEID = last.MESSAGEID
+		and first.SERVICEPROVIDERID = last.SERVICEPROVIDERID
+		and first.LMP = 'E5'
+		and last.LMP = 'E8'
+		and (
+		( first.CONTEXT = 18 and last.CONTEXT = 18 )
+		or
+		( first.CONTEXT = 19 and last.CONTEXT = 19 )
+		)
+		and first.ITERATIONID = last.ITERATIONID
+	</jmx-sql-exposer>
+
+	<jmx-sql-exposer id="Stat_12">
+		select
+		min(last.TIMESTAMP - first.TIMESTAMP),
+		avg(last.TIMESTAMP - first.TIMESTAMP),
+		max(last.TIMESTAMP - first.TIMESTAMP),
+		count(first.MESSAGEID)
+		from LMPS first, LMPS last where
+		last.TIMESTAMP >= ?
+		and first.MESSAGEID = last.MESSAGEID
+		and first.SERVICEPROVIDERID = last.SERVICEPROVIDERID
+		and first.LMP = 'E1'
+		and last.LMP = 'E4'
+		and (
+		( first.CONTEXT = 0 and last.CONTEXT = 3 )
+		or
+		( first.CONTEXT = 4 and last.CONTEXT = 7 )
+		)
+	</jmx-sql-exposer>
+
+	<jmx-sql-exposer id="Stat_13">
+		select
+		min(last.TIMESTAMP - first.TIMESTAMP),
+		avg(last.TIMESTAMP - first.TIMESTAMP),
+		max(last.TIMESTAMP - first.TIMESTAMP),
+		count(first.MESSAGEID)
+		from LMPS first, LMPS last where
+		last.TIMESTAMP >= ?
+		and first.MESSAGEID = last.MESSAGEID
+		and first.SERVICEPROVIDERID = last.SERVICEPROVIDERID
+		and first.LMP = 'E1'
+		and last.LMP = 'E8'
+		and (
+		( first.CONTEXT = 0 and last.CONTEXT = 3 )
+		or
+		( first.CONTEXT = 4 and last.CONTEXT = 7 )
+		)
+	</jmx-sql-exposer>
+
+	<jmx-sql-exposer id="PE_Stat_01">
+		SELECT
+		min(point2.TIMESTAMP - point1.TIMESTAMP) AS min,
+		avg(point2.TIMESTAMP - point1.TIMESTAMP) AS average,
+		max(point2.TIMESTAMP - point1.TIMESTAMP) AS max,
+		count(*) AS count
+		FROM
+		LMPS point1 CROSS JOIN LMPS point2
+		WHERE
+		? &lt; point1.TIMESTAMP
+		AND
+		0 &lt; point1.TIMESTAMP AND point2.TIMESTAMP &lt; 2000000000000
+		AND
+		point1.LMP = 'C9'
+		AND
+		point2.LMP = 'C1'
+		AND
+		point1.MESSAGEID = point2.MESSAGEID;
+	</jmx-sql-exposer>
+	
+	<disabled-lmp>X1</disabled-lmp>
+
+</configuration>

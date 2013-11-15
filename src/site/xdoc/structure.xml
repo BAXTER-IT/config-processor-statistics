@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document xmlns="http://maven.apache.org/XDOC/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/XDOC/2.0 http://maven.apache.org/xsd/xdoc-2.0.xsd">
+
+    <head>
+        <title>Performance Statistics Configuration Processor Overview</title>
+    </head>
+
+    <body>
+
+        <section name="Configuration Repository">
+            <p>
+                Current processor version is
+                <code>1.0</code>
+            </p>
+
+            <p>Statistics Configuration Processor serves configuration requests for Statistics Server and statistics
+                clients. It supports statistics server JVM setup, Logging, Server and JMX exposers settings. It also
+                provides statistics cient configuration for other applications.
+            </p>
+
+            <p>
+                The root of configuration sources for statistics configuration processor is
+                <code>$REPO/com/baxter/statistics/</code>
+                , there are several souces:
+            </p>
+            <ul>
+                <li>jvm.xml - Server JVM Setup</li>
+                <li>log.xml - Server Logging Setup</li>
+                <li>stats.xml - UDP configuration for both clients and server, clients measurements filters, internal
+                    server configuration and JMX
+                    Exposers setup
+                </li>
+            </ul>
+
+        </section>
+
+        <section name="Server JVM Setup">
+            <p>
+                This configuration conforms to a standard Configuration Server JVM Processor conventions. The
+                configuration source is
+                <code>$REPO/com/baxter/statistics/jvm.xml</code>
+                file.
+            </p>
+            <p>JVM configuration for statistics server typicaly includes such parameters as logging framework, heap and
+                GC settings. An important part here is JMX setup as statistics server provides different statistics
+                exposers via JMX.
+            </p>
+            <p>
+                Typical request for the configuration is:
+                <source>http://config.server.ip:4040/config-server/rest/com.baxter.statistics/statistics-server/jvm?osfamily=unix
+                </source>
+            </p>
+        </section>
+
+        <section name="Server Logging Setup">
+            <p>
+                This configuration conforms to a standard Configuration Server Logger Processor conventions. The
+                configuration source is
+                <code>$REPO/com/baxter/statistics/log.xml</code>
+                file.
+            </p>
+            <p>
+                The configuration for Statistics Server typically includes definition of
+                <code>ROOT</code>
+                and
+                <code>com.baxter</code>
+                loggers and file appender.
+            </p>
+            <p>
+                Typical request for the configuration is:
+
+                <source>http://config.server.ip:4040/config-server/rest/com.baxter.statistics/statistics-server/logback
+                </source>
+
+                It is referenced from the JVM configuration as -Dlogback.configurationFile= property.
+            </p>
+        </section>
+
+        <section name="UDP Configuration">
+            <p>
+                The client applications send statistics measurements to a Statistics Server via the UDP channel. That
+                is, a client has to know where to send. From the opposite side, the Statistics Server has to bind on a
+                particular port.
+                All this configuration is specified in
+                <code>$REPO/com/baxter/statistics/stats.xml</code>
+                file inside an
+                <code>&lt;udp&gt;</code>
+                element. For example:
+                <source><![CDATA[<udp host="stat.server.ip" port="4321" />]]></source>
+            </p>
+
+            <p>
+                Statistics Server queries this configuration as
+                <source>http://config.server.ip:4040/config-server/rest/com.baxter.statistics/statistics-server/statistics
+                </source>
+                And the response contains
+                <source><![CDATA[
+    ...
+    <server port="4321"/>
+    ...]]></source>
+                Note, that host parameter is not important for server.
+            </p>
+
+            <p>
+                The client applications should normally use the Statistics Client API to send measurements. That API
+                provides a facade which configures from the Configuration Server using the requests like:
+                <source>http://config.server.ip:4040/config-server/rest/com.baxter.pe/price-engine-broadcast/statistics
+                </source>
+                Note, that clients use their own product context for configuration requests. That is, the Price Engine
+                (in this case) configuration processor depends on Statistics configuration processor and delegates the
+                statistics requests there.
+                <br />
+                The response for such a request looks like:
+                <source><![CDATA[
+    ...
+    <server host="stat.server.ip" port="4321"/>
+    ...]]></source>
+            </p>
+        </section>
+
+        <section name="Client Measurements Filter">
+            <p>Sometimes there is need to isolate some particular component in an environment for investigation. In such
+                a case it would be very useful to disable measuring of some LMPs.
+            </p>
+            <p>
+                That can be done by using the filters in
+                <code>$REPO/com/baxter/statistics/stats.xml</code>
+                file. The document may declare one or many elements like
+                <code>&lt;disabled-lmp&gt;X1&lt;/disabled-lmp&gt;</code>
+                . This tells to do not perform measurement of LMP
+                <code>X1</code>
+                . Every point to be disabled has to be declared in its own element. The element may also be declared for
+                all points by using the wildcard character
+                <code>*</code>
+                . The Statistics Client framework will not send the measurements for points that declared as disabled.
+            </p>
+            <p>
+                You may effectively use the LMPs filter with
+                <code>stats.xml</code>
+                variant files.
+            </p>
+        </section>
+
+        <section name="Internal Server Setup">
+            <p>
+                The statistics server implements a Disruptor approach for a better performance when processing the
+                measurements. The disruptor can be configured in
+                <code>$REPO/com/baxter/statistics/stats.xml</code>
+                file. You should not typically change any values there. The defaults are pretty fine.
+            </p>
+            <p>
+                This configuration also specifies the statistics database for persisting the measurements. You may set
+                up the database connection within the element
+                <code>&lt;disruptor&gt;&lt;persistence-handler&gt;&lt;connection&gt;</code>
+                , it contains an
+                <code>url</code>
+                attribute with value that follows JDBC Connection URL conventions and the authentication attributes.
+                The
+                authentication can be provided either with pair
+                <code>username</code>
+                and
+                <code>password</code>
+                or you can use encoded
+                <code>credentials</code>
+                attribute. (Note, the encoding for such an attribute is not yet finally implemented and may change in
+                the future)
+            </p>
+            <p>With a current processor, the disruptor configuration is delivered to a server in response without
+                modifications, e.g. just like it is defined in configuration source.
+            </p>
+        </section>
+
+        <section name="JMX Exposers Setup">
+            <p>
+                All JMX Exposers for statistics metrics are declared in
+                <code>$REPO/com/baxter/statistics/stats.xml</code>
+                document. There are currently predefined exposers and SQL based generic exposers. The format delivered
+                by processor is
+                <i>almost</i>
+                the same as defined in source XML. It is a subject for change in the future.
+            </p>
+        </section>
+
+    </body>
+
+</document>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://baxter-it.com/config/jvm"
+	xmlns:c="http://baxter-it.com/config/component" xmlns:conf="http://baxter-it.com/config">
+
+	<logging id="default" framework="logback">
+		<c:component id="statistics-server" />
+		<conf:reference id="log" type="logback">
+			<conf:parameter name="alias">logback.xml</conf:parameter>
+		</conf:reference>
+	</logging>
+
+	<heap id="default" initial="64M" maximum="128M">
+		<c:component id="statistics-server" />
+	</heap>
+
+	<jmx id="unsecure" auth="false" ssl="false">
+		<c:component id="statistics-server">
+			<port>18300</port>
+		</c:component>
+	</jmx>
+
+	<gclog rfcDate="false" file="/var/log/baxter/statistics-server-gc.log">
+		<c:component id="statistics-server" />
+	</gclog>
+
+	<gc type="cms" disableExplicit="true">
+		<c:component id="statistics-server" />
+	</gc>
+
+</configuration>
