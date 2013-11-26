@@ -158,17 +158,17 @@
                 </p>
 
                 <source>wget
-                    https://repository-baxter.forge.cloudbees.com/release/com/baxter/stat/statistics-config-processor/${releaseVersion}/statistics-config-processor-${releaseVersion}-san.rpm
+                    https://repository-baxter.forge.cloudbees.com/release/com/baxter/stat/baxter-config-processor-statistics/${releaseVersion}/baxter-config-processor-statistics-${releaseVersion}-alt.rpm
                 </source>
 
                 <source>wget
-                    http://qa.baxtersol.bit/nexus/content/repositories/baxter.release.cloudbees/com/baxter/stat/statistics-config-processor/${releaseVersion}/statistics-config-processor-${releaseVersion}-san.rpm
+                    http://qa.baxtersol.bit/nexus/content/repositories/baxter.release.cloudbees/com/baxter/stat/baxter-config-processor-statistics/${releaseVersion}/baxter-config-processor-statistics-${releaseVersion}-alt.rpm
                 </source>
 
                 <p>After download you can install a package by issuing a command:
                 </p>
 
-                <source>yum install statistics-config-processor-${releaseVersion}-san.rpm </source>
+                <source>yum install baxter-config-processor-statistics-${releaseVersion}-alt.rpm </source>
 
             </subsection>
 
