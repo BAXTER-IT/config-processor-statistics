@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<descriptor xmlns="http://baxter-it.com/config/descriptor" version="1.2" productId="com.baxter.statistics"
+<descriptor xmlns="http://baxter-it.com/config/descriptor" version="1.3" productId="com.baxter.statistics"
     viewer="viewer-statistics.xsl">
     <processors>
         <processor class="com.baxter.config.processor.impl.XSLTProcessor" type="jvm">
@@ -11,9 +11,13 @@
         <processor class="com.baxter.config.processor.impl.XSLTProcessor" type="logback">
             <parameter name="stylesheet">baxterxsl:logback.xsl</parameter>
         </processor>
+        <processor class="com.baxter.config.processor.impl.XSLTProcessor" type="log4j">
+            <parameter name="stylesheet">baxterxsl:log4j.xsl</parameter>
+        </processor>
     </processors>
     <upgrades>
         <from version="1.0" toVersion="1.1" />
         <from version="1.1" toVersion="1.2" />
+        <from version="1.2" toVersion="1.3" />
     </upgrades>
 </descriptor>
