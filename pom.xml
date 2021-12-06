@@ -12,7 +12,7 @@
 
 	<groupId>com.baxter.config.processor.stat</groupId>
 	<artifactId>baxter-config-processor-statistics</artifactId>
-	<version>1.5-SNAPSHOT</version>
+	<version>1.5</version>
 
 	<name>Configuration Processor for Statistics</name>
 	<description>Configuration processor to be used with Baxter Configuration Server.</description>
