@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.baxter.config</groupId>
 		<artifactId>baxter-config-processor-parent</artifactId>
-		<version>1.4.12</version>
+		<version>1.4.13</version>
 	</parent>
 
 	<groupId>com.baxter.config.processor.stat</groupId>
@@ -121,7 +121,7 @@
 	</dependencyManagement>
 
 	<properties>
-		<config.dep.version>1.4.12</config.dep.version>
+		<config.dep.version>1.4.13</config.dep.version>
 	</properties>
 
 </project>
